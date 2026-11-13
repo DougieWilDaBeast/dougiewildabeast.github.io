@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://willtoforge.com/sitemap.xml
+Sitemap: https://willtoforge.com/eisenhower-matrix/sitemap.xml
