@@ -1,0 +1,44 @@
+{
+  "projects": [
+    {
+      "slug": "skill-engine",
+      "repo": "skill-engine-public",
+      "title": "Skill Engine",
+      "tagline": "A real-life RPG where you are the character: a graph of real skills, missions that train them, and an AI examiner that checks you can actually do them.",
+      "status": "In closed test",
+      "card": {"image": "core-loop.jpg", "box": [16, 16, 431, 431]}
+    },
+    {
+      "slug": "brick",
+      "repo": "brick-launcher-public",
+      "title": "Brick",
+      "tagline": "An Android home screen that turns a smartphone into a calm, sleep-first device: seven keys, one digest, and an AI that waits until you ask.",
+      "status": "In daily use",
+      "card": {"image": "four-screens.png", "box": [48, 106, 398, 456]}
+    },
+    {
+      "slug": "chronicle",
+      "repo": "chronicle-public",
+      "title": "Chronicle",
+      "tagline": "A persistent medieval world of mortal AI lives, where knowledge outlives the knower and every death leaves an honest record.",
+      "status": "Running end to end",
+      "card": {"image": "world-dashboard.png", "box": [360, 380, 660, 680]}
+    },
+    {
+      "slug": "history-manga",
+      "repo": "history-manga-public",
+      "title": "History Manga",
+      "tagline": "Real history and Irish legend as five-minute scroll-down comics, built from primary sources with a page on what's real in every chapter.",
+      "status": "Fifteen chapters out",
+      "card": {"image": "covers.jpg", "box": [10, 100, 310, 400]}
+    },
+    {
+      "slug": "plate",
+      "repo": "plate-public",
+      "title": "Plate",
+      "tagline": "A household food log that finds which ingredients keep turning up when something disagrees with you, and admits when it doesn't know.",
+      "status": "Working, self-hosted",
+      "card": {"image": "plate-three-screens.png", "box": [20, 20, 410, 410]}
+    }
+  ]
+}

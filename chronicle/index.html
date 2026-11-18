@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chronicle: A persistent medieval world of mortal AI lives · WillToForge</title>
+<meta name="description" content="A persistent medieval world of mortal AI lives, where knowledge outlives the knower and every death leaves an honest record.">
+<link rel="canonical" href="https://willtoforge.com/chronicle/">
+<link rel="icon" href="/img/icon-32.png" sizes="32x32">
+<link rel="icon" href="/img/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<meta name="theme-color" content="#1b1e20">
+<meta property="og:title" content="Chronicle · WillToForge">
+<meta property="og:description" content="A persistent medieval world of mortal AI lives, where knowledge outlives the knower and every death leaves an honest record.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://willtoforge.com/chronicle/">
+<meta property="og:image" content="https://willtoforge.com/chronicle/img/card.png">
+<link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/_projects/project.css">
+</head>
+<body>
+<div class="wrap">
+<nav><a href="/" class="home"><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span>WillToForge</a><span class="crumb">Projects</span></nav>
+<header>
+<h1>Chronicle</h1>
+<p class="status">Running end to end</p>
+</header>
+<article>
+<p align="center">
+  <img src="img/world-dashboard.png" width="100%" alt="The CHRONICLE dashboard: a live procedural world map with three factions' named individuals marked on it, a Let time pass control, and a feed of recent world history in which the Custodian names individuals and kings choose their councils">
+</p>
+
+<p><strong>A persistent medieval world of mortal AI lives.</strong> Individuals are born, make choices, discover,
+research, fight, govern, earn names and die, each on their own clock. Several factions share one
+seeded world, and a third AI, the Custodian, changes the laws of nature through a safe rule
+language. <em>Knowledge outlives the knower.</em></p>
+<h2 id="the-idea">The idea</h2>
+<ul>
+<li><strong>One world clock that never resets.</strong> There are no synchronised generations: lives overlap and
+  end at different times, and the world carries on.</li>
+<li><strong>AI only where it matters.</strong> Ordinary behaviour (moving, gathering, fighting, ageing) is
+  deterministic and replayable from a seed. An AI mind is called only at meaningful moments: a
+  discovery, a crisis, a political review, an expected death.</li>
+<li><strong>Names are earned.</strong> Most inhabitants stay unnamed and pass into the record as telemetry. When
+  what someone has lived shows an identity, the Custodian may name them and unlock a personal
+  skill. Titles can be earned, changed or taken away, and each carries a bounded power and a
+  matching burden that the simulation applies.</li>
+<li><strong>Mortal government.</strong> Kings and advisers are living, titled individuals. A king chooses and
+  dismisses advisers from the named living; when a king dies, the crown passes on.</li>
+<li><strong>The Custodian changes the world, safely.</strong> It can alter day and night, magic, ecology, farming
+  and other systems only through a declarative rule language whose effects are validated and
+  clamped before they apply.</li>
+<li><strong>An honest record of every life.</strong> A named individual who expects to die may write a sealed final
+  note, unseen while they live. At death, the telemetry and any living witnesses nearby produce one
+  immutable Chronicle. Sudden deaths never get invented last words.</li>
+</ul>
+<p align="center">
+  <img src="img/witnessed-lives.png" width="100%" alt="Four Chronicle cards, each The Witnessed Life of a named individual: how long they lived, how they died, their defining events and discoveries, and that no final note was sealed and none was invented">
+</p>
+
+<ul>
+<li><strong>The human is an observer.</strong> You can suggest ideas to the Custodian, or send information (never
+  commands) to one living individual.</li>
+</ul>
+<h2 id="how-it-is-built">How it is built</h2>
+<ul>
+<li>Python and FastAPI backend with a seeded procedural world map (elevation, rivers, climate,
+  biomes, settlements, ruins, resources, roads and ley lines) and a continuous tick engine.</li>
+<li>Claude through the Anthropic API for the event minds, the Custodian and the Chronicle writer,
+  with deterministic offline fallbacks so the whole world runs without a key.</li>
+<li>SQLite append-only telemetry, JSON world state and Markdown memory files for Chronicles.</li>
+<li>A hidden master rule layer (safety rails and simulation invariants) that the agents can feel the
+  effects of but can never read through any endpoint.</li>
+<li>A phone-friendly dashboard: <em>Let time pass</em> advances the world one, five or ten days, then plays
+  each day back on the live map with travel trails, story beats and the world's history.</li>
+<li>A pytest suite covering map determinism, asynchronous lives, research choice, mortal government,
+  the Custodian's naming and title rules, sealed notes, witness Chronicles, world laws and immutable
+  storage.</li>
+</ul>
+<h2 id="where-it-is">Where it is</h2>
+<p>The continuous-world backend and the dashboard run end to end. Started in July 2026.</p>
+<h2 id="how-it-was-made">How it was made</h2>
+<p>Designed and built by Will Douglas, with AI coding assistants. Inside the world, Claude plays the
+minds at meaningful moments and the Custodian, and writes each Chronicle from the record.</p>
+</article>
+<aside class="repo">
+<p>The code is kept private. This page is also on GitHub at <a href="https://github.com/DougieWilDaBeast/chronicle-public">DougieWilDaBeast/chronicle-public</a>. All rights reserved.</p>
+</aside>
+<footer><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span><a href="/">WillToForge</a> · <a href="mailto:hello@willtoforge.com">hello@willtoforge.com</a></footer>
+</div>
+</body>
+</html>
