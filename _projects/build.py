@@ -55,6 +55,9 @@ def load_readme(repo_dir: Path) -> tuple[str, str]:
             out.append(line)
     body = "".join(out)
     body = body.replace('src="images/', 'src="img/').replace("](images/", "](img/")
+    # Links to other files in the showcase repo point at that file on GitHub.
+    blob = f"https://github.com/{OWNER}/{repo_dir.name}/blob/HEAD/"
+    body = re.sub(r"\]\((?!https?:|#|mailto:|img/)([^)\s]+)\)", lambda m: f"]({blob}{m.group(1)})", body)
     return title, body
 
 
@@ -75,7 +78,16 @@ def page(p: dict, body_html: str) -> str:
     return TEMPLATE.format(
         title=t, tagline=tag, tagline_short=html.escape(short), url=url, repo=repo,
         repo_short=f"{OWNER}/{p['repo']}", status=html.escape(p["status"]), body=body_html,
+        play=play_html(p),
     )
+
+
+def play_html(p: dict) -> str:
+    link = p.get("link")
+    if not link:
+        return ""
+    return (f'\n<p class="play"><a class="btn" href="{html.escape(link["url"])}">'
+            f'{html.escape(link["label"])}</a></p>')
 
 
 def card_html(p: dict) -> str:
@@ -118,7 +130,13 @@ def main() -> None:
             if f.name in body:  # copy only the pictures the page uses
                 shutil.copy2(f, out / "img" / f.name)
         make_card(repo_dir / "images" / p["card"]["image"], p["card"]["box"], out / "img" / "card.png")
-        (out / "index.html").write_text(page(p, render(body)), encoding="utf-8")
+        body_html = render(body)
+        # Load every picture after the first only when it scrolls into view.
+        first = body_html.find("<img ")
+        if first >= 0:
+            head, rest = body_html[: first + 5], body_html[first + 5:]
+            body_html = head + rest.replace("<img ", '<img loading="lazy" ')
+        (out / "index.html").write_text(page(p, body_html), encoding="utf-8")
         print(f"built /{p['slug']}/")
 
     # Home page cards, between the markers.
@@ -168,7 +186,7 @@ TEMPLATE = """<!doctype html>
 <nav><a href="/" class="home"><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span>WillToForge</a><span class="crumb">Projects</span></nav>
 <header>
 <h1>{title}</h1>
-<p class="status">{status}</p>
+<p class="status">{status}</p>{play}
 </header>
 <article>
 {body}
