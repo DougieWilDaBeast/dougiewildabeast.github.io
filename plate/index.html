@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plate: A household food log that finds which ingredients keep turning up when something disagrees with you · WillToForge</title>
+<meta name="description" content="A household food log that finds which ingredients keep turning up when something disagrees with you, and admits when it doesn&#x27;t know.">
+<link rel="canonical" href="https://willtoforge.com/plate/">
+<link rel="icon" href="/img/icon-32.png" sizes="32x32">
+<link rel="icon" href="/img/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<meta name="theme-color" content="#1b1e20">
+<meta property="og:title" content="Plate · WillToForge">
+<meta property="og:description" content="A household food log that finds which ingredients keep turning up when something disagrees with you, and admits when it doesn&#x27;t know.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://willtoforge.com/plate/">
+<meta property="og:image" content="https://willtoforge.com/plate/img/card.png">
+<link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/_projects/project.css">
+</head>
+<body>
+<div class="wrap">
+<nav><a href="/" class="home"><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span>WillToForge</a><span class="crumb">Projects</span></nav>
+<header>
+<h1>Plate</h1>
+<p class="status">Working, self-hosted</p>
+</header>
+<article>
+<p align="center">
+  <img src="img/plate-three-screens.png" width="100%" alt="Three phone screens with made-up foods: the ingredient sheet split into confirmed, suspected and watching; the history of logged foods with their verdicts; and a product looked up by name with its counts and the buttons No issues, Had issues and Eating it now">
+</p>
+
+<p><strong>A household food log that tells you which ingredients keep turning up when something disagrees
+with you, and admits when it does not know.</strong> You log whether a food caused problems; Plate works
+out which ingredients those foods have in common and gives you a sheet you can carry. It is built
+for a small group (you, family, close friends) on your own server.</p>
+<h2 id="the-idea">The idea</h2>
+<p>Most food is <strong>unknown</strong>, and the app says so. It does not assume you can eat everything until
+proven otherwise, or nothing until proven otherwise; both of those are guesses dressed as answers.</p>
+<ul>
+<li><strong>Three answers, not two:</strong> no problems, had problems, or <em>eating it now</em> (decide later). A
+  pending answer becomes <em>unsure</em> after 24 hours, and can still be corrected afterwards.</li>
+<li><strong>Three kinds of thing:</strong> an ingredient, a packaged product, or a dish from a menu. A dish's
+  ingredients are a best guess, so it is kept apart from a product.</li>
+<li><strong>Confirmed and suspected are never blurred.</strong> The sheet splits into <em>confirmed</em> (logged against
+  the ingredient itself), <em>suspected</em> (inferred from foods that caused problems, called only after at
+  least two reports and a clear majority), <em>watching</em> (one report, not enough) and <em>no trouble so
+  far</em>.</li>
+<li><strong>It says when it cannot tell.</strong> If milk, lactose and whey always appear together, the counts
+  cannot separate them, and the app shows that instead of picking one. There is deliberately no
+  fitted model: with yes/no outcomes and ingredients that almost always travel together, a
+  regression would be confidently wrong.</li>
+</ul>
+<h2 id="getting-food-in">Getting food in</h2>
+<ul>
+<li><strong>Scan a barcode</strong> with the phone's camera. A hit is looked up on Open Food Facts; a miss drops
+  you into the add form with the barcode filled in, so the next person finds it.</li>
+<li><strong>Type what the menu says.</strong> Menus are prose, not ingredient lists, so a parser splits them up,
+  strips cooking words and prices, and pulls out common triggers hidden inside phrases ("lemon
+  butter sauce" also gives "butter").</li>
+<li><strong>Nothing is counted until you have looked at it.</strong> Both paths show what they found as editable
+  chips before anything is saved.</li>
+<li><strong>Mistakes and changes are different things.</strong> A wrong entry is edited; a food that has stopped
+  causing trouble is logged again, so the record of the change survives.</li>
+</ul>
+<h2 id="how-it-is-built">How it is built</h2>
+<ul>
+<li>Python and FastAPI, SQLAlchemy over SQLite (Postgres by changing one setting), and a plain
+  JavaScript front end that installs on a phone.</li>
+<li>Runs in Docker on a home server, reached over Tailscale or through a reverse proxy with HTTPS.
+  The barcode reader is served by the app itself, so it works with no route to the internet.</li>
+<li>Invite-code sign-up for a household, and a "buddy" mode for logging on someone else's behalf.</li>
+<li>Exports: a plain-text avoid list that works on a phone with no signal, a one-page summary for a
+  dietitian that carries its own caveats, and a CSV of every record.</li>
+<li>A smoke test of 76 checks covers the whole loop with no network.</li>
+</ul>
+<h2 id="where-it-is">Where it is</h2>
+<p>Working and self-hosted; the pictures above use made-up foods. Not built yet: reading ingredient
+labels from a photo (the text box is where it would plug in), reminders before a pending answer
+expires, and how much and how bad.</p>
+<p>Suspected ingredients are arithmetic on what people report, not a diagnosis, and the exports say
+so on their face.</p>
+<h2 id="how-it-was-made">How it was made</h2>
+<p>Designed and built by Will Douglas. Food data comes from
+<a href="https://world.openfoodfacts.org">Open Food Facts</a> (Open Database License). The barcode reader is
+<a href="https://github.com/zxing-js/library">ZXing</a> (Apache 2.0).</p>
+</article>
+<aside class="repo">
+<p>The code is kept private. This page is also on GitHub at <a href="https://github.com/DougieWilDaBeast/plate-public">DougieWilDaBeast/plate-public</a>. All rights reserved.</p>
+</aside>
+<footer><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span><a href="/">WillToForge</a> · <a href="mailto:hello@willtoforge.com">hello@willtoforge.com</a></footer>
+</div>
+</body>
+</html>

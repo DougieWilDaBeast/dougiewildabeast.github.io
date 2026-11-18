@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill Engine: A real-life RPG where you are the character · WillToForge</title>
+<meta name="description" content="A real-life RPG where you are the character: a graph of real skills, missions that train them, and an AI examiner that checks you can actually do them.">
+<link rel="canonical" href="https://willtoforge.com/skill-engine/">
+<link rel="icon" href="/img/icon-32.png" sizes="32x32">
+<link rel="icon" href="/img/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<meta name="theme-color" content="#1b1e20">
+<meta property="og:title" content="Skill Engine · WillToForge">
+<meta property="og:description" content="A real-life RPG where you are the character: a graph of real skills, missions that train them, and an AI examiner that checks you can actually do them.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://willtoforge.com/skill-engine/">
+<meta property="og:image" content="https://willtoforge.com/skill-engine/img/card.png">
+<link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/_projects/project.css">
+</head>
+<body>
+<div class="wrap">
+<nav><a href="/" class="home"><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span>WillToForge</a><span class="crumb">Projects</span></nav>
+<header>
+<h1>Skill Engine</h1>
+<p class="status">In closed test</p>
+</header>
+<article>
+<p align="center">
+  <img src="img/core-loop.jpg" width="100%" alt="Four phone screens: Today with the next step, a report written in your own words turned into logged practice, a skill's sheet showing what proving it takes, and the debrief after a finished mission">
+</p>
+
+<p><strong>A real-life RPG where you are the character.</strong> Skill Engine maps real human abilities as a graph,
+writes missions that train them and quest arcs that chain them, and keeps track of what you have
+actually practised and proven. Rank means you can do the thing, not that you ticked a box often.</p>
+<p>The idea began in a notebook in March 2024 and has been rebuilt several times since, on Android,
+React Native, Flutter and Expo, as Will learned each stack. This is the current version, started in
+September 2026.</p>
+<h2 id="how-it-works">How it works</h2>
+<ul>
+<li><strong>Skills are a graph of real abilities.</strong> Each skill is rated by how rare it is (F, most people,
+  to S, a handful) and linked to others by what it builds on, what it leads to and what it shares.
+  Skills that players make go into a shared library that every player can draw from.</li>
+<li><strong>Missions are training plans</strong> attached to that graph: steps, the skills they train, and what
+  comes next. After a finished mission the app offers <em>go further</em> (the bar raised) or <em>go
+  differently</em> (a new way in).</li>
+<li><strong>Proving a skill is a real bar.</strong> A skill check asks for evidence, and an AI examiner judges it
+  against what the skill says. Only then is the skill marked acquired.</li>
+<li><strong>Tell it what you did, in your own words.</strong> Type or speak a few lines, and the app sorts them
+  into logged practice, finished steps and new skills, and shows you each change before it is saved.</li>
+<li><strong>Action, then reflection.</strong> Every finished mission ends with a short debrief: what happened, what
+  surprised you, what you would change.</li>
+<li><strong>Friends and quests.</strong> Send a friend a mission, or ask them into a quest you run together.</li>
+</ul>
+<p align="center">
+  <img src="img/skills-and-quests.jpg" width="100%" alt="Four phone screens: skills by area, how two skills connect, the quest log with a friend's progress, and the shared skill library">
+</p>
+
+<h2 id="how-it-is-built">How it is built</h2>
+<ul>
+<li><strong>TypeScript monorepo:</strong> a Fastify server and a React web app that installs on a phone as a PWA.
+  The server owns every prompt, model call, check and write; the app only talks to the API and
+  holds no keys.</li>
+<li><strong>No single AI vendor.</strong> Every model call goes through one provider interface: Claude through the
+  Anthropic API, or any OpenAI-compatible host (open-weight models such as DeepSeek). Each task can
+  be routed to a different model. Every answer is checked against a schema on the server before it
+  is used, and a mock provider runs the whole app offline at no cost.</li>
+<li><strong>Measured, not guessed.</strong> A check script runs every AI task once against a chosen model and
+  reports what passed, the tokens used and the cost of each step, so switching models is a change
+  of settings backed by numbers.</li>
+<li><strong>Each player owns their data:</strong> one SQLite file per player, exportable whole. Every change is
+  written to an append-only event log.</li>
+<li><strong>Runs on Google Cloud Run</strong> from one Docker image, scaling to zero, with each player's file kept
+  in a private Cloud Storage bucket. Testers get access codes; reminders arrive by Web Push; voice
+  notes are transcribed and the audio is not kept.</li>
+<li><strong>Tested at real phone sizes.</strong> A script drives the built app with a made-up player and
+  screenshots every screen at seven phone widths, then reports anything that does not fit. The
+  pictures on this page come from it.</li>
+<li><strong>Decisions are written down.</strong> More than 380 dated design decisions, a data protection impact
+  assessment and a breach plan sit alongside the code.</li>
+</ul>
+<h2 id="where-it-is">Where it is</h2>
+<p>In a closed test with a small group of testers. The core loop (skill, mission,
+finish, reflect, skill check, acquired, character sheet) works end to end, along with friends,
+shared skills, quests, voice notes and reminders.</p>
+<h2 id="how-it-was-made">How it was made</h2>
+<p>Designed and built by Will Douglas, with an AI coding assistant (Claude Code) as a pair programmer
+for much of the code and the documents. In the app, AI writes missions, quests and skill links,
+sorts what you tell it, and examines skill checks; every AI answer is checked against a schema
+before the app uses it.</p>
+</article>
+<aside class="repo">
+<p>The code is kept private. This page is also on GitHub at <a href="https://github.com/DougieWilDaBeast/skill-engine-public">DougieWilDaBeast/skill-engine-public</a>. All rights reserved.</p>
+</aside>
+<footer><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span><a href="/">WillToForge</a> · <a href="mailto:hello@willtoforge.com">hello@willtoforge.com</a></footer>
+</div>
+</body>
+</html>

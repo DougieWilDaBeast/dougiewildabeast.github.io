@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brick: An Android home screen that turns a smartphone into a calm · WillToForge</title>
+<meta name="description" content="An Android home screen that turns a smartphone into a calm, sleep-first device: seven keys, one digest, and an AI that waits until you ask.">
+<link rel="canonical" href="https://willtoforge.com/brick/">
+<link rel="icon" href="/img/icon-32.png" sizes="32x32">
+<link rel="icon" href="/img/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<meta name="theme-color" content="#1b1e20">
+<meta property="og:title" content="Brick · WillToForge">
+<meta property="og:description" content="An Android home screen that turns a smartphone into a calm, sleep-first device: seven keys, one digest, and an AI that waits until you ask.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://willtoforge.com/brick/">
+<meta property="og:image" content="https://willtoforge.com/brick/img/card.png">
+<link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/_projects/project.css">
+</head>
+<body>
+<div class="wrap">
+<nav><a href="/" class="home"><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span>WillToForge</a><span class="crumb">Projects</span></nav>
+<header>
+<h1>Brick</h1>
+<p class="status">In daily use</p>
+</header>
+<article>
+<p align="center">
+  <img src="img/four-screens.png" width="100%" alt="Four Brick screens on a Galaxy S25-sized phone: the sleep screen with the clock and 5 in the digest; the digest glance card; the digest as one line per person or thing, with an urgent favourite's missed call at the top; and a spoken answer from Ask. Below each panel are the seven keys">
+</p>
+
+<p><strong>A home screen for Android that turns a smartphone into a calm, sleep-first device:</strong> a
+monochrome panel, seven keys, and an AI layer that waits until you ask. It runs on any phone with
+Android 8.0 or newer, so an old phone from a drawer can be the Brick.</p>
+<p>The ideas behind it: pull, never push; finite by default; hands before eyes; people, not feeds.</p>
+<h2 id="what-it-does">What it does</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Tap</th>
+<th>Hold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>▲ ▼ (or the volume keys)</td>
+<td>Scroll; on the sleep screen, flip glance cards</td>
+<td></td>
+</tr>
+<tr>
+<td>Navi</td>
+<td>Open, select, done</td>
+<td></td>
+</tr>
+<tr>
+<td>back</td>
+<td>Back</td>
+<td>Every app, plus Brick settings</td>
+</tr>
+<tr>
+<td>note</td>
+<td>Type a note</td>
+<td>Speak a note</td>
+</tr>
+<tr>
+<td>ask</td>
+<td>Type a question</td>
+<td>Speak a question; the answer is read aloud</td>
+</tr>
+<tr>
+<td>call</td>
+<td>Your favourites, then the dialpad</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>The digest.</strong> Brick reads every notification and folds them into one line per person or thing:
+  a group chat is one line, a favourite is one line across every app, and a feed's three hundred
+  posts are a few lines. Everything except favourites can be held off the phone's own shade until
+  you choose to look.</li>
+<li><strong>Favourites break through</strong> with a vibration. So do a few rules for real emergencies: a second
+  missed call from the same person within minutes, the same person trying again, or an emergency
+  word in a one-to-one message. Unsure cases stay in the digest with the reason on the line.</li>
+<li><strong>Glance cards</strong> on the sleep screen: the next calendar event, what is waiting in the digest, and
+  this week's counts.</li>
+<li><strong>Notes</strong>, kept on the phone and optionally written as Markdown files into a folder you pick,
+  such as an Obsidian vault.</li>
+<li><strong>Ask</strong>: one short answer from Mistral, Anthropic, or any OpenAI-compatible endpoint. The key
+  stays on the phone.</li>
+<li><strong>The quiet switch</strong> at the top sets the phone's real Do not disturb mode.</li>
+</ul>
+<p><sub>Brick's own screens at Galaxy S25 size, rendered from the app's code with made-up
+notifications.</sub></p>
+<h2 id="two-phones">Two phones</h2>
+<p>The bigger aim is to carry a small, clean Brick for a whole day and leave the main phone at home,
+without anyone who needs you failing to reach you.</p>
+<ul>
+<li>The main phone sends one short push when someone breaks through. It says who and through which
+  app, never what they wrote, and it can be sealed so the push server never sees who either.</li>
+<li>The carried Brick pulls the digest when you unlock it or open the digest, over a private
+  network. It is never pushed.</li>
+<li>A heartbeat tells the Brick the main phone is still there; if it goes quiet, the Brick says so.</li>
+<li>A small Wear OS app and a fitness-band buzz are being tried for carrying a break-glass alert to
+  the wrist.</li>
+</ul>
+<h2 id="how-it-is-built">How it is built</h2>
+<ul>
+<li><strong>Plain Java, no libraries.</strong> The whole interface is built in code, and the APK is about 120 KB.</li>
+<li><strong>Measured before it is changed.</strong> A usage log (what happened and when, never what was said) and a
+  timing log of every notification and how it went away turn a day of real use into interrupt
+  numbers: unlocks, alerts, reaction time, time to an empty digest.</li>
+<li><strong>The break-glass rules are tested against a labelled set</strong> of staged notifications on every
+  build: 73 cases, every real emergency caught (recall 1.00), precision 0.90. An optional model
+  step can look only at the unsure cases, and can raise one but never hold anything back.</li>
+<li><strong>Simulated users.</strong> Ten scripted personas (a family favourite, a group chat, feed apps flooding,
+  calls and alarms, odd notifications, Ask against a fake model, voice with no speech service)
+  press Brick's real keys on Android 15 and Android 10 emulators, with fake apps posting the
+  notifications, and report what broke.</li>
+<li><strong>Model output is never trusted.</strong> Summaries are kept only if they are shorter than the message,
+  hold no link or address, and show no prompt-injection phrasing; a hostile model's line found on a
+  real phone was fixed and retested the same day.</li>
+<li><strong>Safe if lost.</strong> The phone-to-phone server answers only the private network and locks out
+  repeated wrong tokens; a signed command can lock, ring or wipe a lost Brick; and a CI test refuses
+  anything shaped like a key in the shipped sources.</li>
+</ul>
+<h2 id="where-it-is">Where it is</h2>
+<p>In daily use on a Samsung Galaxy S25, with an old Huawei phone for testing. The two-phone setup is
+being built in steps, each tried on a real phone before the next; the wrist alerts are still being
+tried.</p>
+<h2 id="how-it-was-made">How it was made</h2>
+<p>Designed by Will Douglas and built with AI coding assistants (Claude Code and GitHub Copilot).</p>
+</article>
+<aside class="repo">
+<p>The code is kept private. This page is also on GitHub at <a href="https://github.com/DougieWilDaBeast/brick-launcher-public">DougieWilDaBeast/brick-launcher-public</a>. All rights reserved.</p>
+</aside>
+<footer><span class="ogham" aria-hidden="true">᚛ᚃᚑᚏᚌᚓ᚜</span><a href="/">WillToForge</a> · <a href="mailto:hello@willtoforge.com">hello@willtoforge.com</a></footer>
+</div>
+</body>
+</html>
